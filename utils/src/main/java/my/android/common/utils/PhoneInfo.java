@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -86,92 +84,6 @@ public class PhoneInfo {
         return Build.VERSION.SDK_INT;
     }
 
-    /**
-     * Returns the ISO country code equivalent of the current registered
-     * operator's MCC (Mobile Country Code).
-     *
-     * @param context
-     * @return
-     */
-    public static String getNetWorkCountryIso(Context context) {
-        TelephonyManager manager = (TelephonyManager) context
-                .getSystemService(Activity.TELEPHONY_SERVICE);
-        return manager.getNetworkCountryIso();
-    }
-
-    /**
-     * Returns the numeric name (MCC+MNC) of current registered operator.may not
-     * work on CDMA phone
-     *
-     * @param context
-     * @return
-     */
-    public static String getNetWorkOperator(Context context) {
-        TelephonyManager manager = (TelephonyManager) context
-                .getSystemService(Activity.TELEPHONY_SERVICE);
-        return manager.getNetworkOperator();
-    }
-
-    /**
-     * Returns the alphabetic name of current registered operator.may not work
-     * on CDMA phone
-     *
-     * @param context
-     * @return
-     */
-    public static String getNetWorkOperatorName(Context context) {
-        TelephonyManager manager = (TelephonyManager) context
-                .getSystemService(Activity.TELEPHONY_SERVICE);
-        return manager.getNetworkOperatorName();
-    }
-
-    /**
-     * get type of current network
-     *
-     * @param context
-     * @return
-     */
-    public static int getNetworkType(Context context) {
-        TelephonyManager manager = (TelephonyManager) context
-                .getSystemService(Activity.TELEPHONY_SERVICE);
-        return manager.getNetworkType();
-    }
-
-    /**
-     * is webservice aviliable
-     *
-     * @param context
-     * @return
-     */
-    public static boolean isOnline(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context
-                .getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo info = manager.getActiveNetworkInfo();
-        if (info != null && info.isConnected()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * get current data connection type name ,like ,Mobile��WIFI��OFFLINE
-     *
-     * @param context
-     * @return
-     */
-    public static String getConnectTypeName(Context context) {
-        if (!isOnline(context)) {
-            return "OFFLINE";
-        }
-        ConnectivityManager manager = (ConnectivityManager) context
-                .getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo info = manager.getActiveNetworkInfo();
-        if (info != null) {
-            return info.getTypeName();
-        } else {
-            return "OFFLINE";
-        }
-    }
 
     /**
      * get free memory of phone, in M
@@ -256,46 +168,6 @@ public class PhoneInfo {
         return Build.MANUFACTURER;
     }
 
-    public static PhoneInfo getPhoneInfo(Context context) {
-        PhoneInfo result = new PhoneInfo();
-        result.mIMEI = getIMEI(context);
-        result.mPhoneType = getPhoneType(context);
-        result.mSysVersion = getSysVersion();
-        result.mNetWorkCountryIso = getNetWorkCountryIso(context);
-        result.mNetWorkOperator = getNetWorkOperator(context);
-        result.mNetWorkOperatorName = getNetWorkOperatorName(context);
-        result.mNetWorkType = getNetworkType(context);
-        result.mIsOnLine = isOnline(context);
-        result.mConnectTypeName = getConnectTypeName(context);
-//        result.mFreeMem = getFreeMem(context);
-        result.mTotalMem = getTotalMem(context);
-        result.mCupInfo = getCpuInfo();
-        result.mProductName = getProductName();
-        result.mModelName = getModelName();
-        result.mManufacturerName = getManufacturerName();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("IMEI : " + mIMEI + "\n");
-        builder.append("mPhoneType : " + mPhoneType + "\n");
-        builder.append("mSysVersion : " + mSysVersion + "\n");
-        builder.append("mNetWorkCountryIso : " + mNetWorkCountryIso + "\n");
-        builder.append("mNetWorkOperator : " + mNetWorkOperator + "\n");
-        builder.append("mNetWorkOperatorName : " + mNetWorkOperatorName + "\n");
-        builder.append("mNetWorkType : " + mNetWorkType + "\n");
-        builder.append("mIsOnLine : " + mIsOnLine + "\n");
-        builder.append("mConnectTypeName : " + mConnectTypeName + "\n");
-        builder.append("mFreeMem : " + mFreeMem + "M\n");
-        builder.append("mTotalMem : " + mTotalMem + "M\n");
-        builder.append("mCupInfo : " + mCupInfo + "\n");
-        builder.append("mProductName : " + mProductName + "\n");
-        builder.append("mModelName : " + mModelName + "\n");
-        builder.append("mManufacturerName : " + mManufacturerName + "\n");
-        return builder.toString();
-    }
 
 
 }
